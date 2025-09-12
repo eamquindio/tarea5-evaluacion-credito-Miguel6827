@@ -41,35 +41,68 @@ public class EvaluacionCredito {
      * @return Tasa mensual en porcentaje
      */
     public double calcularTasaMensual(double tasaNominalAnual) {
-        return 0;
+         return (tasaNominalAnual / 12);
+
     }
     
     /**
      * Calcula la cuota mensual del crédito usando la fórmula de amortización francesa.
      * Formula: Cuota = M * (im * (1+im)^n) / ((1+im)^n - 1)
-     * 
+     *
      * @param tasaNominalAnual Tasa nominal anual en porcentaje
      * @param plazoMeses Plazo del crédito en meses
      * @return Valor de la cuota mensual en pesos
      */
     public double calcularCuotaMensual(double tasaNominalAnual, int plazoMeses) {
-        return 0;
+        double im = calcularTasaMensual(tasaNominalAnual);
+        if (im == 0){
+            return valorCreditoSolicitado / plazoMeses;//(si la tasa es 0 entonces es una division normal)
+        }
+        double numerador = valorCreditoSolicitado * im * Math.pow(1 + tasaNominalAnual, plazoMeses);
+        double denominador = Math.pow(1+ im, plazoMeses) -1;
+        double cuota = valorCreditoSolicitado * (numerador / denominador);
+
+        if (cuota > valorCreditoSolicitado) {
+            cuota = valorCreditoSolicitado / plazoMeses;}
+        return cuota;
     }
-    
+
     /**
      * Evalúa si el crédito debe ser aprobado según las reglas de negocio:
      * - Perfil bajo (puntaje < 500): Rechazo automático
      * - Perfil medio (500 ≤ puntaje ≤ 700): Requiere codeudor y cuota ≤ 25% de ingresos
      * - Perfil alto (puntaje > 700 y < 2 créditos): Cuota ≤ 30% de ingresos
      * 
-     * @param tasaNominalAnual Tasa nominal anual en porcentaje
+     * @param im Tasa nominal anual en porcentaje
      * @param plazoMeses Plazo del crédito en meses
      * @return true si el crédito es aprobado, false si es rechazado
      */
-    public boolean evaluarAprobacion(double tasaNominalAnual, int plazoMeses) {
+    public boolean evaluarAprobacion(double im, int plazoMeses) {
+        double cuota = calcularCuotaMensual(im, plazoMeses);
 
-        
-        return false;
+        if (puntajeCredito < 500) {
+            //perfil bajo
+            return false;
+        }
+
+            //perfil Medio
+        else if (puntajeCredito <= 700) {
+            if (tieneCodedor) {
+                double limiteCuota = ingresosMensuales * 0.24;
+                return cuota <= limiteCuota;
+            } else {
+                return false;
+            }
+        }
+        //perfil alto
+        else {
+            if ( numeroCreditosActivos < 2) {
+                return cuota <= ingresosMensuales * 0.30;
+        } else{
+                return false;
+            }
+        }
+
     }
     
     /**

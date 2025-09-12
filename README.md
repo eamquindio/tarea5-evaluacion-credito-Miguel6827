@@ -1,3 +1,4 @@
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/3L-UTKfi)
 # **🏛️ Ejercicio 5 — Evaluación automatizada de solicitudes de crédito**
 
 ---
@@ -87,7 +88,7 @@ Tasa mensual = TNA / 12
 Cuota = ----------------------
           (1 + im)^n - 1
 
-Donde:
+Donde: 
 - M = Monto del crédito solicitado
 - im = Tasa mensual / 100 (para convertir a decimal)
 - n = Plazo en meses
