@@ -88,7 +88,7 @@ Tasa mensual = TNA / 12
 Cuota = ----------------------
           (1 + im)^n - 1
 
-Donde:
+Donde: 
 - M = Monto del crédito solicitado
 - im = Tasa mensual / 100 (para convertir a decimal)
 - n = Plazo en meses
